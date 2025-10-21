@@ -194,7 +194,7 @@
     <script>
         // ==========================================================
         // 外部二维码逻辑 (保持不变)
-        const commitPageUrl = window.location.origin + '/commit.html';
+        const commitPageUrl = new URL('commit.html', window.location.href).href;;
         const imgElements = document.querySelectorAll('.qrcode');
 
         if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
@@ -451,4 +451,5 @@
 </body>
 
 </html>
+
 
