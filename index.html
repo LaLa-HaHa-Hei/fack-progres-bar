@@ -385,12 +385,14 @@
             // 1. 根据当前值计算增量 (实现分段加速和随机性)
             let increment = 0;
 
-            if (currentValue < 10) {
-                increment = Math.random() * 0.4;
+            if (currentValue < 3) {
+                increment = Math.random() * 0.1;
+            } else if (currentValue < 10) {
+                increment = Math.random() * 0.2;
             } else if (currentValue < displayMax) { // 进度条填充阶段 (0 ~ 100)
                 increment = Math.random() * 2.0;
             } else if (currentValue < maxValue) { // 进度条满，内部计数阶段 (100 ~ 400)
-                increment = 5 + Math.random() * 10;
+                increment = Math.random() * 5;
             } else {
                 // 达到或超过最大值，停止定时器
                 clearInterval(progressInterval);
@@ -441,7 +443,9 @@
         }
 
         // 启动进度模拟
-        progressInterval = setInterval(updateProgress, intervalTime);
+        setTimeout(() => {
+            progressInterval = setInterval(updateProgress, intervalTime);
+        }, 3000);
 
     </script>
 </body>
