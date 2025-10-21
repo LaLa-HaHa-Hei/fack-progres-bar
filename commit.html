@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>力量贡献中心</title>
+    <style>
+        /* 1. 基础样式与布局 (居中) */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            /* 占据整个视口高度 */
+            margin: 0;
+            background-color: #0d1117;
+            /* 黑暗、科技感背景 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            /* 防止动画溢出产生滚动条 */
+        }
+
+        /* 2. 按钮美化 */
+        #commitBtn {
+            padding: 18px 40px;
+            font-size: 24px;
+            font-weight: bold;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0077ff, #00ddff);
+            /* 蓝色渐变 */
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 30px rgba(0, 119, 255, 0.8);
+            /* 初始光晕 */
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 10;
+            /* 确保按钮在动画之上 */
+            outline: none;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* 按钮悬停效果 */
+        #commitBtn:not([disabled]):hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 40px rgba(0, 221, 255, 1), 0 8px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 按钮禁用样式 (点击后) */
+        #commitBtn[disabled] {
+            cursor: not-allowed;
+            background: #333;
+            box-shadow: none;
+            color: #aaa;
+            transform: none;
+        }
+
+        /* 3. 动画元素 (能量光束) */
+        #blastEffect {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(0, 221, 255, 0.9);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+            /* 确保不影响点击事件 */
+            z-index: 50;
+        }
+
+        /* 4. 关键帧动画定义 */
+        @keyframes energyBlast {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 1;
+                box-shadow: 0 0 50px #00ffff;
+            }
+
+            50% {
+                /* 爆发点：快速扩张并达到最亮 */
+                transform: translate(-50%, -50%) scale(10);
+                opacity: 0.8;
+                background-color: #ffffff;
+                /* 瞬间更亮 */
+                box-shadow: 0 0 100px 50px #00ffff;
+            }
+
+            70% {
+                /* 向上发射：模拟能量流向大屏幕 */
+                transform: translate(-50%, -100%) scale(5);
+                /* 向上移动 */
+                opacity: 0.5;
+            }
+
+            100% {
+                /* 消失在屏幕上方 */
+                transform: translate(-50%, -150vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* 5. 触发动画的类 */
+        #blastEffect.active {
+            animation: energyBlast 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 按钮是唯一的可见元素 -->
+    <button id="commitBtn">
+        Commit!
+    </button>
+
+    <!-- 用于实现动画的隐藏元素 -->
+    <div id="blastEffect"></div>
+
+    <script>
+        const commitBtn = document.getElementById('commitBtn');
+        const blastEffect = document.getElementById('blastEffect');
+
+        commitBtn.addEventListener('click', function () {
+            // 1. 禁用按钮 (只允许按一次)
+            this.disabled = true;
+            this.textContent = '力量已注入...';
+
+            // 2. 触发强烈的动画效果
+            blastEffect.classList.add('active');
+
+            // 3. (可选) 动画结束后重置按钮文本，但保持禁用状态
+            setTimeout(() => {
+                this.textContent = 'Welcome!';
+                // 移除动画类，以便如果需要可以再次点击（但我们保持禁用）
+                // blastEffect.classList.remove('active'); 
+            }, 1500); // 1.5秒后执行，与CSS动画时间匹配
+        });
+    </script>
+</body>
+
+</html>
