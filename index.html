@@ -52,9 +52,11 @@
             /* 确保 canvas 在进度条和文字之后 */
         }
 
-        .qrcode {
+        #qrcode {
             position: absolute;
-            bottom: 0;
+            left: 50%;
+            top: 60%;
+            transform: translateX(-50%);
             width: 15%;
             z-index: 10;
         }
@@ -188,22 +190,20 @@
 
     <!-- 确保 canvas 在 body 内，并添加固定定位和 z-index 调整 -->
     <canvas id="boom-canvas"></canvas>
-    <img class="qrcode" style="left: 0;" />
-    <img class="qrcode" style="right: 0;" />
+    <img id="qrcode" />
     <script src="./qrcode.min.js"></script>
     <script>
         // ==========================================================
         // 外部二维码逻辑 (保持不变)
-        const commitPageUrl = new URL('commit.html', window.location.href).href;;
-        const imgElements = document.querySelectorAll('.qrcode');
+        const commitPageUrl = new URL('commit.html', window.location.href).href;
+        const imgElement = document.querySelector('#qrcode');
 
         if (typeof QRCode !== 'undefined' && QRCode.toDataURL) {
             QRCode.toDataURL(commitPageUrl, function (error, url) {
                 if (error) {
                     console.error(error);
                 } else {
-                    imgElements[0].src = url;
-                    imgElements[1].src = url;
+                    imgElement.src = url;
                 }
             });
         }
@@ -415,8 +415,7 @@
                 barElement.style.width = `100%`;
                 textElement.textContent = `${maxValue} / ${displayMax}`; // 文本显示 400 / 100
                 startFinalExplosion(); // 触发终结动画
-                imgElements[0].style.display = 'none'
-                imgElements[1].style.display = 'none'
+                imgElement.style.display = 'none'
                 return;
             }
 
@@ -451,5 +450,3 @@
 </body>
 
 </html>
-
-
